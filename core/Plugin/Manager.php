@@ -78,6 +78,7 @@ class Manager
         'API',
         'Proxy',
         'LanguagesManager',
+        'WebsiteMeasurable',
 
         // default Piwik theme, always enabled
         self::DEFAULT_THEME,
@@ -92,7 +93,8 @@ class Manager
         'ExampleVisualization',
         'ExamplePluginTemplate',
         'ExampleTracker',
-        'ExampleReport'
+        'ExampleReport',
+        'MobileAppMeasurable'
     );
 
     // Themes bundled with core package, disabled by default
@@ -1336,6 +1338,10 @@ class Manager
         if (empty($global)) {
             return $plugins;
         }
+
+        // we need to make sure a possibly disabled plugin will be still loaded before any 3rd party plugin
+        $global = array_merge($global, $this->corePluginsDisabledByDefault);
+
         $global = array_values($global);
         $plugins = array_values($plugins);
 
